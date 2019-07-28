@@ -13,7 +13,7 @@ Install mkcert
 - <b>wget https://github.com/FiloSottile/mkcert/releases/download/v1.1.2/mkcert-v1.1.2-linux-amd64</b>
 - <b>mv mkcert-v1.1.2-linux-amd64 mkcert</b>
 - <b>chmod +x mkcert</b>
-- <b>cp mkcert /usr/local/bin/</b>
+- <b>sudo cp mkcert /usr/local/bin/</b>
 
 Generate Local CA
 
