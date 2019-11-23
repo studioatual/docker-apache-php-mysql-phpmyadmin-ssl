@@ -22,8 +22,7 @@ RUN docker-php-ext-configure gd \
 
 RUN docker-php-ext-configure zip --with-libzip
 
-RUN docker-php-ext-install gd intl pdo_mysql pdo_pgsql mysqli zip \
-  && apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
+RUN docker-php-ext-install gd intl pdo_mysql pdo_pgsql mysqli zip
 
 RUN pecl install imagick-3.4.3
 
@@ -31,8 +30,16 @@ RUN pecl install xdebug && docker-php-ext-enable xdebug
 
 RUN docker-php-ext-enable imagick
 
-RUN curl -sS https://getcomposer.org/installer | php
-RUN mv composer.phar /usr/bin/composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Clear package lists
+RUN apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
+
+# Permissions
+RUN chown -R root:www-data /var/www/html
+RUN chmod u+rwx,g+rx,o+rx /var/www/html
+RUN find /var/www/html -type d -exec chmod u+rwx,g+rx,o+rx {} +
+RUN find /var/www/html -type f -exec chmod u+rw,g+rw,o+r {} +
 
 WORKDIR /var/www/html
 
